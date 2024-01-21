@@ -84,7 +84,7 @@ def remove_dir():
         dir_name = input("\nEnter Directory Name : ")
 
         if os.path.exists(dir_name):
-            os.rmdir(dir_name)
+            shutil.rmtree(dir_name)
             print(f"\nDirectory {dir_name} Removed Successfully")
         else:
             print("\nDirectory Not Found , Please Enter Valid Path")
@@ -92,7 +92,7 @@ def remove_dir():
     else:
         full_path = input("\nEnter Full Directory Path : ")
         if os.path.exists(full_path):
-            os.rmdir(full_path)
+            shutil.rmtree(full_path)
             print(f"\nDirectory {full_path} Removed Successfully")
         else:
             print("\nDirectory Not Found , Please Enter Valid Path")
@@ -126,7 +126,62 @@ def copy_file():
 
         print("\nPlease Ente Valid Source File Path")
     
-    
+def copy_dir():
+    print("\n-- Copy Directory ---")
+
+    source_loc = input("\nEnter Source Location Of Directory (full path ) : ")
+
+    if os.path.exists(source_loc):
+
+        destination_loc = input("\nEnter Destination Location To Paste The Directory ( full path ) : ")
+
+        if os.path.exists(destination_loc):
+
+            want_to_copy = input("\nDo You Wanna Cut The Directory ? (y / n) : ")
+
+            if want_to_copy.lower() == "y":
+
+                print(f"\nDirectory Successfully Cutted And Pasted To {shutil.move(source_loc,destination_loc)}")
+
+            else:
+                
+                print(f"\nDirectory Successfully Pasted To {shutil.copytree(source_loc,destination_loc)}")
+
+def list_dir_items():
+
+    at_current_dir = input("\nDo You Wann List Current Directory Items ? (y / n) : ")
+
+    all_items = []
+
+    if at_current_dir.lower() == "y":
+        all_items = os.listdir(".")
+
+        print("Directory Items : ") 
+
+        for index,item in enumerate(all_items,1):
+
+            print(f"{index} . {item}")
+
+        print()
+
+    else:
+
+        dir_location = input("\nEnter Directory Full Path : ")
+
+        if os.path.exists(dir_location):
+
+            all_items = os.listdir(dir_location)
+
+            print("Directory Items : ") 
+
+            for index,item in enumerate(all_items,1):
+
+                print(f"{index} . {item}")
+
+            print()
+
+        else:
+            print("\nDirectory Not Found , Please Enter Valid Directory Path")
  
 print("\n\n-----------------------------------------")
 print("|        File Management System         |")
@@ -139,6 +194,8 @@ while True:
     print("3 . Remove A File")
     print("4 . Remove Dirctory") 
     print("5 . Copy File")   
+    print("6 . Copy Directory")
+    print("7 . List Directory Items")
     print("0 . Exit")
 
     choice = input("\n_ : ")
@@ -156,6 +213,10 @@ while True:
             remove_dir()
         elif choice == 5:
             copy_file()
+        elif choice == 6:
+            copy_dir()
+        elif choice == 7:
+            list_dir_items()
         elif choice == 0:
             print("\nSystem Exited .......")
             break
