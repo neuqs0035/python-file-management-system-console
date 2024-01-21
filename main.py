@@ -75,6 +75,26 @@ def remove_file():
         else:
             print("\nFile Not Found, Please Enter Valid Path")
 
+def remove_dir():
+    print("\n--- Remove Directory ---")
+    at_current_dir = input("\nDo You Wanna Remove File From Current Directory? (y/n): ")
+
+    if at_current_dir.lower() == "y":
+        dir_name = input("\nEnter Directory Name : ")
+
+        if os.path.exists(dir_name):
+            os.rmdir(dir_name)
+            print(f"\nDirectory {dir_name} Removed Successfully")
+        else:
+            print("\nDirectory Not Found , Please Enter Valid Path")
+
+    else:
+        full_path = input("\nEnter Full Directory Path : ")
+        if os.path.exists(full_path):
+            os.rmdir(full_path)
+            print(f"\nDirectory {full_path} Removed Successfully")
+        else:
+            print("\nDirectory Not Found , Please Enter Valid Path")
 
 print("\n\n-----------------------------------------")
 print("|        File Management System         |")
@@ -85,7 +105,7 @@ while True:
     print("\n1 . Create New File")
     print("2 . Create New Directory")
     print("3 . Remove A File")
-    
+    print("4 . Remove Dirctory")    
     print("0 . Exit")
 
     choice = input("\n_ : ")
@@ -99,6 +119,8 @@ while True:
             create_directory()
         elif choice == 3:
             remove_file()
+        elif choice == 4:
+            remove_dir()
         elif choice == 0:
             print("\nSystem Exited .......")
             break
