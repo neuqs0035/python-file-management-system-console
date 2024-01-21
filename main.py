@@ -1,4 +1,5 @@
 import os
+import shutil
 
 def create_file():
     print("\n--- Create New File ---")
@@ -77,7 +78,7 @@ def remove_file():
 
 def remove_dir():
     print("\n--- Remove Directory ---")
-    at_current_dir = input("\nDo You Wanna Remove File From Current Directory? (y/n): ")
+    at_current_dir = input("\nDo You Wanna Remove Directory From Current Directory? (y/n): ")
 
     if at_current_dir.lower() == "y":
         dir_name = input("\nEnter Directory Name : ")
@@ -96,6 +97,37 @@ def remove_dir():
         else:
             print("\nDirectory Not Found , Please Enter Valid Path")
 
+def copy_file():
+
+    print("\n--- Copy File ---")
+
+    source_loc = input("\nEnter Source Location Of File (full path ) : ")
+
+    if os.path.exists(source_loc):
+
+        destination_loc = input("\nEnter Destination Location To Paste The File ( full path ): ")
+
+        if os.path.exists(destination_loc):
+
+            want_to_copy = input("\nDo You Wanna Cut The File ? (y / n) : ")
+
+            if want_to_copy.lower() == "y":
+
+                print(f"\nFile Successfully Cutted And Pasted To {shutil.move(source_loc,destination_loc)}")
+
+            else:
+
+                print(f"\nFile Successfully Copied To {shutil.copyfile(source_loc,destination_loc)}")
+
+        else:
+
+            print("\nPlease Enter Valid Destination Path")
+    else:
+
+        print("\nPlease Ente Valid Source File Path")
+    
+    
+ 
 print("\n\n-----------------------------------------")
 print("|        File Management System         |")
 print("-----------------------------------------")
@@ -105,7 +137,8 @@ while True:
     print("\n1 . Create New File")
     print("2 . Create New Directory")
     print("3 . Remove A File")
-    print("4 . Remove Dirctory")    
+    print("4 . Remove Dirctory") 
+    print("5 . Copy File")   
     print("0 . Exit")
 
     choice = input("\n_ : ")
@@ -121,6 +154,8 @@ while True:
             remove_file()
         elif choice == 4:
             remove_dir()
+        elif choice == 5:
+            copy_file()
         elif choice == 0:
             print("\nSystem Exited .......")
             break
