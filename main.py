@@ -10,6 +10,7 @@ while True:
 
     print("\n1 . Create New File")
     print("2 . Create New Directory")
+    print("3 . Remove A File")
     print("0 . Exit")
 
     choice = input("\n_ : ")
@@ -103,7 +104,37 @@ while True:
 
                     print("\nPlease Enter Valid Path")
 
-            
+        elif choice == 3:
+
+            print("\n--- Remove File ---")
+
+            at_current_dir = input("\nDo You Wanna Remove File From Current Directory ? (y / n) : ")
+
+            if at_current_dir.lower() == "y":
+
+                file_name = input("\nEnter File Name You Wanna Remove With Extenstion : ")
+
+                if os.path.exists(file_name):
+
+                    os.remove(file_name)
+
+                    print(f"\nFile {file_name} Removed Successfully")
+                else:
+
+                    print("\nFile Not Found , Please Enter Valid File Name")
+
+            else:
+                full_path = input("\nEnter Full Path Of File ( WITH EXTENSION ) : ")
+
+                if os.path.exists(full_path):
+
+                    os.remove(full_path)
+
+                    print(f"\nFile {full_path} Removed Successfully")
+
+                else:
+
+                    print("\nFile Not Found , Please Enter Valid Path")
         elif choice == 0:
 
             print("\nSystem Exited .......")
