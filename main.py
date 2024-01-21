@@ -21,10 +21,12 @@ def create_file():
             file_name = input("\nEnter New File Name With Extension: ")
             full_path = os.path.join(dir_location, file_name)
 
-            with open(full_path, "w"):
-                pass
-
-            print("\nFile Created (File Path): " + full_path)
+            if os.path.exists(full_path):
+                print("\nFile Already Exists")
+            else:
+                with open(full_path, "w"):
+                    pass
+                print("\nFile Created (File Path): " + full_path)
         else:
             print("\nDirectory Not Found, Please Enter Valid Directory Path")
 
@@ -98,91 +100,89 @@ def remove_dir():
             print("\nDirectory Not Found , Please Enter Valid Path")
 
 def copy_file():
-
     print("\n--- Copy File ---")
-
     source_loc = input("\nEnter Source Location Of File (full path ) : ")
 
     if os.path.exists(source_loc):
-
         destination_loc = input("\nEnter Destination Location To Paste The File ( full path ): ")
 
         if os.path.exists(destination_loc):
-
             want_to_copy = input("\nDo You Wanna Cut The File ? (y / n) : ")
 
             if want_to_copy.lower() == "y":
-
-                print(f"\nFile Successfully Cutted And Pasted To {shutil.move(source_loc,destination_loc)}")
-
+                destination_path = os.path.join(destination_loc, os.path.basename(source_loc))
+                print(f"\nFile Successfully Cutted And Pasted To {shutil.move(source_loc, destination_path)}")
             else:
-
-                print(f"\nFile Successfully Copied To {shutil.copyfile(source_loc,destination_loc)}")
-
+                print(f"\nFile Successfully Copied To {shutil.copyfile(source_loc, destination_loc)}")
         else:
-
             print("\nPlease Enter Valid Destination Path")
     else:
+        print("\nPlease Enter Valid Source File Path")
 
-        print("\nPlease Ente Valid Source File Path")
-    
 def copy_dir():
     print("\n-- Copy Directory ---")
-
     source_loc = input("\nEnter Source Location Of Directory (full path ) : ")
 
     if os.path.exists(source_loc):
-
         destination_loc = input("\nEnter Destination Location To Paste The Directory ( full path ) : ")
 
         if os.path.exists(destination_loc):
-
             want_to_copy = input("\nDo You Wanna Cut The Directory ? (y / n) : ")
 
             if want_to_copy.lower() == "y":
-
-                print(f"\nDirectory Successfully Cutted And Pasted To {shutil.move(source_loc,destination_loc)}")
-
+                destination_path = os.path.join(destination_loc, os.path.basename(source_loc))
+                print(f"\nDirectory Successfully Cutted And Pasted To {shutil.move(source_loc, destination_path)}")
             else:
-                
-                print(f"\nDirectory Successfully Pasted To {shutil.copytree(source_loc,destination_loc)}")
+                print(f"\nDirectory Successfully Pasted To {shutil.copytree(source_loc, destination_loc)}")
 
 def list_dir_items():
-
-    at_current_dir = input("\nDo You Wann List Current Directory Items ? (y / n) : ")
-
-    all_items = []
+    print("\n--- List Directory Items ---")
+    at_current_dir = input("\nDo You Wanna List Current Directory Items? (y/n): ")
 
     if at_current_dir.lower() == "y":
-        all_items = os.listdir(".")
-
-        print("Directory Items : ") 
-
-        for index,item in enumerate(all_items,1):
-
-            print(f"{index} . {item}")
-
-        print()
-
+        dir_path = "."
     else:
+        dir_path = input("\nEnter Directory Full Path: ")
 
-        dir_location = input("\nEnter Directory Full Path : ")
+    try:
+        all_items = os.listdir(dir_path)
+        print("Directory Items:")
+        for index, item in enumerate(all_items, 1):
+            print(f"{index} . {item}")
+        print()
+    except FileNotFoundError:
+        print("\nDirectory Not Found, Please Enter Valid Directory Path")
 
-        if os.path.exists(dir_location):
+def rename_file():
+    print("\n--- Rename File ---")
+    old_name = input("\nEnter the current name of the file (with extension): ")
 
-            all_items = os.listdir(dir_location)
+    if os.path.exists(old_name):
+        new_name = input("Enter the new name for the file (with extension): ")
 
-            print("Directory Items : ") 
+        try:
+            os.rename(old_name, new_name)
+            print(f"File '{old_name}' successfully renamed to '{new_name}'")
+        except Exception as e:
+            print(f"Error: {e}")
+    else:
+        print("\nFile Not Found, Please Enter Valid File Name")
 
-            for index,item in enumerate(all_items,1):
+def rename_dir():
+    print("\n--- Rename Directory ---")
+    old_name = input("\nEnter the current name of the directory: ")
 
-                print(f"{index} . {item}")
+    if os.path.exists(old_name):
+        new_name = input("Enter the new name for the directory: ")
 
-            print()
+        try:
+            os.rename(old_name, new_name)
+            print(f"Directory '{old_name}' successfully renamed to '{new_name}'")
+        except Exception as e:
+            print(f"Error: {e}")
+    else:
+        print("\nDirectory Not Found, Please Enter Valid Directory Name")
 
-        else:
-            print("\nDirectory Not Found , Please Enter Valid Directory Path")
- 
 print("\n\n-----------------------------------------")
 print("|        File Management System         |")
 print("-----------------------------------------")
@@ -192,10 +192,12 @@ while True:
     print("\n1 . Create New File")
     print("2 . Create New Directory")
     print("3 . Remove A File")
-    print("4 . Remove Dirctory") 
-    print("5 . Copy File")   
+    print("4 . Remove Directory")
+    print("5 . Copy File")
     print("6 . Copy Directory")
     print("7 . List Directory Items")
+    print("8 . Rename File")
+    print("9 . Rename Directory")
     print("0 . Exit")
 
     choice = input("\n_ : ")
@@ -217,6 +219,10 @@ while True:
             copy_dir()
         elif choice == 7:
             list_dir_items()
+        elif choice == 8:
+            rename_file()
+        elif choice == 9:
+            rename_dir()
         elif choice == 0:
             print("\nSystem Exited .......")
             break
